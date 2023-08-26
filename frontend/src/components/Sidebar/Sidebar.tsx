@@ -1,3 +1,4 @@
+import React, { useEffect } from "react";
 import {
   Bars3Icon,
   ChartPieIcon,
@@ -10,10 +11,23 @@ import {
 } from "@heroicons/react/24/solid";
 import Navlink from "./Navlink";
 import BasicSwitch from "../Switch/BasicSwitch";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../../store";
+import { themeSwitch, ThemeTypesEnum } from "../../store/Slices/systemSlice";
 
 const Sidebar = ({ children }: { children: React.ReactNode }) => {
+  const dispatch = useDispatch();
+
+  const mode = useSelector((x: RootState) => x.system.mode);
   const iconStyles =
     "w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white";
+
+  const isDarkMode = mode === ThemeTypesEnum.DARK;
+
+  useEffect(() => {
+    document.documentElement.classList.toggle(ThemeTypesEnum.DARK, isDarkMode);
+  }, [isDarkMode]);
+
   return (
     <div>
       <button
@@ -65,8 +79,16 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
             />
             <div className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white :bg-gray-700 group">
               <MoonIcon className={iconStyles} />
-              <span className="flex-1 ml-3 whitespace-nowrap">Dark Mode</span>
-              <BasicSwitch />
+              <span className="flex-1 ml-3 whitespace-nowrap">
+                {isDarkMode ? "Dark Mode" : "Light Mode"}
+              </span>
+              <BasicSwitch
+                onchange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  e.target.checked
+                    ? dispatch(themeSwitch(ThemeTypesEnum.DARK))
+                    : dispatch(themeSwitch(ThemeTypesEnum.LIGHT))
+                }
+              />
             </div>
           </ul>
         </div>
