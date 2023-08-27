@@ -5,27 +5,27 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-
 export const createUser = async (req, res) => {
     try {
-        const { email, password } = req.body
-        const existingUser = await UserModel.findOne({ email })
+        const { email, password } = req.body;
+        const existingUser = await UserModel.findOne({ email });
         if (existingUser) {
-            return res.status(400).json({ message: "User already exists" })
+            return res.status(400).json({ message: "User already exists" });
         }
-        const hashedPassword = await bcrypt.hash(password, 10);
+        const hasedPassword = await bcrypt.hash(password, 12);
 
-        const newUser = new UserModel({
+        const newUser = await UserModel.create({
             email,
-            password: hashedPassword,
+            password: hasedPassword,
         });
+
         return res.status(201).json({
             message: "User created successfully",
-        })
+        });
     } catch (err) {
-        res.status(500).json({ message: "something went wrong", err })
+        res.status(500).json({ message: "something went wrong", err });
     }
-}
+};
 
 export const loginUser = async (req, res) => {
     try {
@@ -73,6 +73,46 @@ export const loginUser = async (req, res) => {
                 userRole: findUser.userRole,
             },
         });
+    } catch (err) {
+        res.status(500).json({ message: "something went wrong", err });
+    }
+};
+
+export const updateUserData = async (req, res) => {
+    try {
+        const {
+            firstName,
+            lastName,
+            profilePicture,
+            address,
+            phoneNumber,
+            // email,
+            // password,
+            // userRole,
+        } = req.body;
+
+        const { id } = req.params;
+
+        const findUser = await UserModel.findOne({ _id: id });
+
+        if (!findUser) {
+            return res.status(400).json({ message: "User does not exist" });
+        }
+
+        const updatedUser = await UserModel.findByIdAndUpdate(id, {
+            firstName,
+            lastName,
+            profilePicture,
+            address,
+            phoneNumber,
+            // email,
+            // password,
+            // userRole,
+        });
+
+        res
+            .status(200)
+            .json({ message: "User data updated successfully", updatedUser });
     } catch (err) {
         res.status(500).json({ message: "something went wrong", err });
     }

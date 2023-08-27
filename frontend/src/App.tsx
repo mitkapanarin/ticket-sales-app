@@ -1,15 +1,16 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import {
-  ErrorPage,
   Home,
+  ErrorPage,
   Login,
   Signup,
   BookMark,
   PurchaseHistory,
   Events,
-  ForgotPassword,
+  Profile,
 } from "./Pages";
 import Sidebar from "./components/Sidebar/Sidebar";
+import ProtectedRoutes from "./Pages/utils/ProtectetRoutes";
 
 const App = () => {
   return (
@@ -20,9 +21,11 @@ const App = () => {
           <Route path="/events" element={<Events />} />
           <Route path="/bookmark" element={<BookMark />} />
           <Route path="/purchase-history" element={<PurchaseHistory />} />
+          <Route element={<ProtectedRoutes />}>
+            <Route path="/profile" element={<Profile />} />
+          </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="*" element={<ErrorPage />} />
         </Routes>
       </Sidebar>
