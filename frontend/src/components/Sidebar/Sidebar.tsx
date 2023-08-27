@@ -2,24 +2,29 @@ import React, { useEffect } from "react";
 import {
   Bars3Icon,
   ChartPieIcon,
-  ArrowRightOnRectangleIcon,
+  LockClosedIcon,
   BookmarkIcon,
-  PencilSquareIcon,
   ReceiptPercentIcon,
+  UserIcon,
   MoonIcon,
   CalendarDaysIcon,
+  UserCircleIcon,
+  ArrowRightOnRectangleIcon,
   SunIcon,
 } from "@heroicons/react/24/solid";
-import Navlink from "./Navlink";
+import NavLink from "./Navlink";
 import BasicSwitch from "../Switch/BasicSwitch";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../store";
 import { themeSwitch, ThemeTypesEnum } from "../../store/Slices/systemSlice";
+import { gradientTextStyles } from "../Text/TextStyles";
+import { logoutSuccess } from "../../store/Slices/userSlice";
 
 const Sidebar = ({ children }: { children: React.ReactNode }) => {
   const dispatch = useDispatch();
 
-  const mode = useSelector((x: RootState) => x.system.mode);
+  const mode: string = useSelector((x: RootState) => x.system.mode);
+  const token: string = useSelector((x: RootState) => x.user.token);
   const iconStyles =
     "w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white";
 
@@ -47,37 +52,69 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
         aria-label="Sidebar"
       >
         <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
+          <div
+            className={`${gradientTextStyles} font-bold text-center text-2xl mb-3`}
+          >
+            Ticket Sales
+          </div>
           <ul className="space-y-2 font-medium">
-            <Navlink
-              to="/"
-              label="Dashboard"
-              icon={<ChartPieIcon className={iconStyles} />}
-            />
-            <Navlink
+            {token && (
+              <NavLink
+                to="/"
+                label="Dashboard"
+                icon={<ChartPieIcon className={iconStyles} />}
+              />
+            )}
+            <NavLink
               to="/events"
               label="Events"
               icon={<CalendarDaysIcon className={iconStyles} />}
             />
-            <Navlink
-              to="/bookmark"
-              label="Bookmarks"
-              icon={<BookmarkIcon className={iconStyles} />}
-            />
-            <Navlink
-              to="/purchase-history"
-              label="Purchase History"
-              icon={<ReceiptPercentIcon className={iconStyles} />}
-            />
-            <Navlink
-              to="/login"
-              label="Login"
-              icon={<ArrowRightOnRectangleIcon className={iconStyles} />}
-            />
-            <Navlink
-              to="/signup"
-              label="Signup"
-              icon={<PencilSquareIcon className={iconStyles} />}
-            />
+            {token && (
+              <>
+                <NavLink
+                  to="/bookmark"
+                  label="Bookmark"
+                  icon={<BookmarkIcon className={iconStyles} />}
+                />
+                <NavLink
+                  to="/purchase-history"
+                  label="Purchase History"
+                  icon={<ReceiptPercentIcon className={iconStyles} />}
+                />
+                <NavLink
+                  to="/profile"
+                  label="Profile"
+                  icon={<UserCircleIcon className={iconStyles} />}
+                />
+              </>
+            )}
+
+            {token && (
+              <NavLink
+                to="/login"
+                label="Signout"
+                icon={<ArrowRightOnRectangleIcon className={iconStyles} />}
+                onClick={() => {
+                  dispatch(logoutSuccess());
+                }}
+              />
+            )}
+
+            {!token && (
+              <>
+                <NavLink
+                  to="/login"
+                  label="Login"
+                  icon={<LockClosedIcon className={iconStyles} />}
+                />
+                <NavLink
+                  to="/signup"
+                  label="Signup"
+                  icon={<UserIcon className={iconStyles} />}
+                />
+              </>
+            )}
             <div className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white :bg-gray-700 group">
               {isDarkMode ? (
                 <MoonIcon className={iconStyles} />
