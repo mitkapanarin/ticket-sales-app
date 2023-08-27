@@ -7,6 +7,7 @@ import {
   BookMark,
   PurchaseHistory,
   Events,
+  ForgotPassword,
 } from "./Pages";
 import Sidebar from "./components/Sidebar/Sidebar";
 
@@ -21,6 +22,7 @@ const App = () => {
           <Route path="/purchase-history" element={<PurchaseHistory />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="*" element={<ErrorPage />} />
         </Routes>
       </Sidebar>

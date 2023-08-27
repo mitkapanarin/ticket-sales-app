@@ -2,12 +2,13 @@ import React, { useEffect } from "react";
 import {
   Bars3Icon,
   ChartPieIcon,
-  LockClosedIcon,
+  ArrowRightOnRectangleIcon,
   BookmarkIcon,
   PencilSquareIcon,
   ReceiptPercentIcon,
   MoonIcon,
   CalendarDaysIcon,
+  SunIcon,
 } from "@heroicons/react/24/solid";
 import Navlink from "./Navlink";
 import BasicSwitch from "../Switch/BasicSwitch";
@@ -70,7 +71,7 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
             <Navlink
               to="/login"
               label="Login"
-              icon={<LockClosedIcon className={iconStyles} />}
+              icon={<ArrowRightOnRectangleIcon className={iconStyles} />}
             />
             <Navlink
               to="/signup"
@@ -78,7 +79,11 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
               icon={<PencilSquareIcon className={iconStyles} />}
             />
             <div className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white :bg-gray-700 group">
-              <MoonIcon className={iconStyles} />
+              {isDarkMode ? (
+                <MoonIcon className={iconStyles} />
+              ) : (
+                <SunIcon className={iconStyles} /> // Use SunIcon for light mode
+              )}
               <span className="flex-1 ml-3 whitespace-nowrap">
                 {isDarkMode ? "Dark Mode" : "Light Mode"}
               </span>

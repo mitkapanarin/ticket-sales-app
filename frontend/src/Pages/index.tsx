@@ -5,5 +5,15 @@ import Home from "./Home";
 import BookMark from "./BookMark";
 import PurchaseHistory from "./PurchaseHistory";
 import Events from "./Events";
+import ForgotPassword from "./ForgotPassword";
 
-export { ErrorPage, Home, Login, Signup, BookMark, PurchaseHistory, Events };
+export {
+  ErrorPage,
+  Home,
+  Login,
+  Signup,
+  BookMark,
+  PurchaseHistory,
+  Events,
+  ForgotPassword,
+};
