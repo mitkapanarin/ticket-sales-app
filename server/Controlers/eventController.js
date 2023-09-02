@@ -106,10 +106,33 @@ export const updateEvent = async (req, res) => {
 
 export const deleteEvent = async (req, res) => {
     try {
+        const { id } = req.params;
+        const { token } = req.cookies;
+
+        jwt.verify(token, process.env.JWT_SECRET_KEY, async (err, decodedToken) => {
+            if (err) {
+                return res.status(400).json({ message: "Invalid credentials" });
+            }
+            if (decodedToken.role !== "admin") {
+                return res.status(400).json({
+                    message: "You are not authorized to delete events. Please log in as an admin.",
+                });
+            }
+
+            const deletedEvent = await EventModel.findByIdAndRemove(id);
+
+            if (!deletedEvent) {
+                return res.status(404).json({ message: "Event not found" });
+            }
+
+            res.json({ message: "Event deleted successfully" });
+        });
     } catch (err) {
-        res.status(500).json({ message: "something went wrong", err });
+        console.error(err);
+        res.status(500).json({ message: "Server error" });
     }
 };
+
 
 export const searchEvent = async (req, res) => {
     try {
@@ -128,8 +151,15 @@ export const searchEvent = async (req, res) => {
 // bookmarked events
 export const getMultipleEvents = async (req, res) => {
     try {
-        res.status(200).json({ message: "searched event" });
+        // Retrieve the event IDs from the request body or query parameters
+        const { eventIDs } = req.body; // Assuming eventIDs is an array of event IDs
+
+        // Use the retrieved event IDs to fetch the corresponding events
+        const events = await EventModel.find({ id: { $in: eventIDs } });
+
+        // Return the found events
+        res.status(200).json({ message: "Multiple Events found", data: events });
     } catch (err) {
-        res.status(500).json({ message: "something went wrong", err });
+        res.status(500).json({ message: "Server Error", log: err.message });
     }
 };
