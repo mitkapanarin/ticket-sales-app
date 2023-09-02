@@ -58,17 +58,25 @@ const EventDetailsPage = () => {
         alt={data?.title}
       />
 
+      <h3 className="text-3xl my-4">Details ✨</h3>
+      <p className="my-4 text-slate-300">{data?.description}</p>
+      <p className="my-4 text-slate-300">Price: ${data?.price}</p>
+
       <div className="flex flex-col items-center justify-center">
-        <div className="flex gap-3">
-          <PlusIcon
-            className="h-6"
-            onClick={() => setTicketAmount(ticketAmount + 1)}
-          />
-          <p>{ticketAmount}</p>
-          <MinusIcon
-            onClick={() => setTicketAmount(ticketAmount - 1)}
-            className="h-6"
-          />
+        <div className="flex gap-5">
+          <button className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
+            <PlusIcon
+              className="h-6"
+              onClick={() => setTicketAmount(ticketAmount + 1)}
+            />
+          </button>
+          <button>{ticketAmount}</button>
+          <button className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">
+            <MinusIcon
+              onClick={() => setTicketAmount(ticketAmount - 1)}
+              className="h-6"
+            />
+          </button>
         </div>
         <button
           type="button"
@@ -77,9 +85,6 @@ const EventDetailsPage = () => {
           Add to cart
         </button>
       </div>
-
-      <h3 className="text-3xl my-4">Details ✨</h3>
-      <p className="my-4 text-slate-300">{data?.description}</p>
     </div>
   );
 };

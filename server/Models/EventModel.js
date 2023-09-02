@@ -21,10 +21,20 @@ const EventScema = new mongoose.Schema({
         required: true,
         default: "",
     },
+    price: {
+        type: Number,
+        required: true,
+        default: 0,
+    },
     image: {
         type: String,
         required: true,
         default: "",
+    },
+    type: {
+        type: String,
+        required: true,
+        enum: ["concert", "comedy"],
     },
     // related events feature add later
 });
