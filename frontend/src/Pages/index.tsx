@@ -7,6 +7,7 @@ import PurchaseHistory from "./PurchaseHistory";
 import Events from "./Events";
 import ForgotPassword from "./ForgotPassword";
 import Profile from "./Profile";
+import EventDetailsPage from "./EventDetailsPage";
 
 export {
   ErrorPage,
@@ -18,4 +19,5 @@ export {
   Events,
   ForgotPassword,
   Profile,
+  EventDetailsPage,
 };

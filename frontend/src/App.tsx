@@ -8,6 +8,7 @@ import {
   PurchaseHistory,
   Events,
   Profile,
+  EventDetailsPage,
 } from "./Pages";
 import Sidebar from "./components/Sidebar/Sidebar";
 import ProtectedRoutes from "./Pages/utils/ProtectetRoutes";
@@ -19,6 +20,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/events" element={<Events />} />
+          <Route path="/events/:id" element={<EventDetailsPage />} />
           <Route path="/bookmark" element={<BookMark />} />
           <Route path="/purchase-history" element={<PurchaseHistory />} />
           <Route element={<ProtectedRoutes />}>
