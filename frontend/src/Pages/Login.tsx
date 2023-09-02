@@ -53,10 +53,10 @@ const Login = () => {
             </h1>
             <form className="space-y-4 md:space-y-6" onSubmit={onSubmit}>
               <InputField
-                label="Your Email"
+                label="Enter Your Email"
                 onChange={handleChange}
                 name="email"
-                placeholder="joy@gmail.com"
+                placeholder="youremail@gmail.com"
                 required
                 type="email"
                 value={data.email}

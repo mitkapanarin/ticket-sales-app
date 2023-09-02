@@ -27,7 +27,7 @@ export const store = configureStore({
     [EventsAPI.reducerPath]: EventsAPI.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(EventsAPI.middleware),
+    getDefaultMiddleware().concat(EventsAPI.middleware, UserAuthAPI.middleware),
 });
 
 export const persistedStore = persistStore(store);
