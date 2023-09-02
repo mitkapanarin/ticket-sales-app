@@ -20,6 +20,7 @@ import { RootState } from "../../store";
 import { themeSwitch, ThemeTypesEnum } from "../../store/Slices/systemSlice";
 import { gradientTextStyles } from "../Text/TextStyles";
 import { logoutSuccess } from "../../store/Slices/userSlice";
+import SearchBar from "../SearchBar/SearchBar";
 
 const Sidebar = ({ children }: { children: React.ReactNode }) => {
   const dispatch = useDispatch();
@@ -150,7 +151,10 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
           </ul>
         </div>
       </aside>
-      <div className="p-4 sm:ml-64">{children}</div>
+      <div className="p-4 sm:ml-64">
+        <SearchBar />
+        {children}
+      </div>
     </div>
   );
 };
