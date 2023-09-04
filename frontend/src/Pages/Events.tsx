@@ -2,9 +2,12 @@ import EventCard from "../components/Card/EventCard";
 import { useGetAllEventsQuery } from "../store/API/EventsAPI";
 import { IEventData } from "../types/interface";
 import { gradientTextStyles } from "../components/Text/TextStyles";
+import { useNavigate } from "react-router-dom";
 
 const Events = () => {
   const { data, error, isLoading, isFetching } = useGetAllEventsQuery(null);
+
+  const navigate = useNavigate();
 
   const concerts = data?.filter((item) => item.type === "concert");
   const comedies = data?.filter((item) => item.type === "comedy");
@@ -21,6 +24,14 @@ const Events = () => {
 
   const sortedConcerts = sortByDate(concerts);
   const sortedComedies = sortByDate(comedies);
+
+  const handleSeeAllComedies = () => {
+    navigate("/stand-up-comedies");
+  };
+
+  const handleSeeAllConcerts = () => {
+    navigate("/musical-concerts");
+  };
 
   if (isLoading || isFetching) {
     return <div>Loading events please wait...</div>;
@@ -40,6 +51,9 @@ const Events = () => {
           >
             Musical Concerts
           </h2>
+          <button className="" onClick={handleSeeAllConcerts}>
+            See All
+          </button>
           {sortedConcerts.map((item: IEventData) => (
             <EventCard key={item._id} {...item} />
           ))}
@@ -50,6 +64,9 @@ const Events = () => {
           >
             Stand Up Comedies
           </h2>
+          <button className="" onClick={handleSeeAllComedies}>
+            See All
+          </button>
           {sortedComedies.map((item: IEventData) => (
             <EventCard key={item._id} {...item} />
           ))}

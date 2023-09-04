@@ -37,6 +37,7 @@ const Signup = () => {
       })
       .then(() => setData(initialState))
       .then(() => navigate("/get-all-events"));
+
   };
   return (
     <section className="">
