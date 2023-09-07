@@ -71,8 +71,8 @@ const Signup = () => {
                 onChange={handleChange}
                 name="image"
                 placeholder="Enter Event Name here..."
-                required
-                type="image"
+                required={false}
+                type="file"
                 value={data.image}
               />
               <InputField

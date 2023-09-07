@@ -58,14 +58,13 @@ export const loginUser = async (req, res) => {
             maxAge: 90 * 24 * 60 * 60 * 1000, // 90 days in milliseconds
         });
 
+        // Exclude the 'password' property
         findUser.password = undefined;
 
         return res.status(200).json({
             message: "User logged in successfully",
             userData: {
-                // this is not the correct way to send the token, rather, pull it from cookie storage from the frontend
                 token,
-                // Exclude the 'password' property
                 ...findUser._doc,
             },
         });
