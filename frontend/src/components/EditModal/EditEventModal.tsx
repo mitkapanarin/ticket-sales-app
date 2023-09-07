@@ -26,7 +26,6 @@ const EditEventModal: React.FC = () => {
         location: '',
         title: '',
         price: 0,
-        _id: '',
         type: '',
     });
 
@@ -49,7 +48,6 @@ const EditEventModal: React.FC = () => {
             location: data.location,
             title: data.title,
             price: data.price,
-            _id: data._id,
             type: data.type,
         });
     }, [data, isLoading]);
@@ -142,7 +140,7 @@ const EditEventModal: React.FC = () => {
                                                 onChange={handleChange}
                                                 name="image"
                                                 placeholder="Enter Event Image URL here..."
-                                                required
+                                                required={false}
                                                 type="file"
                                                 value={formData?.image}
                                             />

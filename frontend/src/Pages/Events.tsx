@@ -55,7 +55,7 @@ const Events = () => {
             See All
           </button>
           {sortedConcerts.map((item: IEventData) => (
-            <EventCard key={item._id} {...item} />
+            <EventCard key={item._id as string} {...item} />
           ))}
         </div>
         <div className="flex-1 p-4 text-center">
@@ -68,7 +68,7 @@ const Events = () => {
             See All
           </button>
           {sortedComedies.map((item: IEventData) => (
-            <EventCard key={item._id} {...item} />
+            <EventCard key={item._id as string} {...item} />
           ))}
         </div>
       </div>

@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
 interface DeleteIconProps {
-    _id: string;
+    _id?: string;
 }
 
 const DeleteIcon: React.FC<DeleteIconProps> = ({ _id }) => {

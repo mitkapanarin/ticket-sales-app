@@ -58,7 +58,7 @@ export const updateEvent = async (req, res) => {
             location,
             image,
             price,
-            type
+            type,
         } = req.body;
 
         const { id } = req.params; // Assuming you're passing the event ID in the request parameters
