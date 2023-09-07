@@ -1,20 +1,53 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import dayjs from "dayjs";
-import { BookmarkIcon } from "@heroicons/react/24/solid";
+import { BookmarkIcon } from "@heroicons/react/24/outline";
+import { BookmarkIcon as BookmarkIconSolid } from "@heroicons/react/24/solid";
 import { Link } from "react-router-dom";
 import EditEventModal from "../EditModal/EditEventModal"
 import DeleteIcon from "../DeleteModal/DeleteIcon";
-import { IEventData } from '../../types/interface';
 
 
-const EventCard: FC<IEventData> = ({
+interface IEventCardProps {
+  date: Date;
+  description: string;
+  image: string;
+  location: string;
+  title: string;
+  price: number;
+  type: string;
+  _id?: string;
+  id?: string;
+  saved?: boolean;
+  saveAnEventToBookMark: ({ eventID }: { eventID: string }) => void;
+  removeAnEventFromBookmark?: ({ eventID }: { eventID: string }) => void;
+}
+
+const EventCard: FC<IEventCardProps> = ({
   date,
   description,
   image,
   location,
   title,
-  _id
+  _id,
+  saved,
+  saveAnEventToBookMark,
+  removeAnEventFromBookmark,
 }) => {
+
+  const [isSaved, setIsSaved] = useState(saved || false);
+
+  const handleBookmarkClick = (
+    e: React.MouseEvent<SVGSVGElement, MouseEvent>
+  ) => {
+    e.preventDefault();
+    if (isSaved) {
+      removeAnEventFromBookmark && removeAnEventFromBookmark({ eventID: _id });
+    } else {
+      saveAnEventToBookMark({ eventID: _id });
+    }
+    setIsSaved(!isSaved);
+  };
+
   // Truncate the description to 60 characters
   const shortDescription =
     description.length > 60 ? description.slice(0, 60) + "..." : description;
@@ -50,7 +83,19 @@ const EventCard: FC<IEventData> = ({
         </div>
       </Link>
       <div className="flex items-center justify-center space-x-2">
-        <BookmarkIcon className="h-6 cursor-pointer" />
+        <div className="flex items-center justify-center space-x-2">
+          {isSaved ? (
+            <BookmarkIconSolid
+              onClick={handleBookmarkClick}
+              className="h-6 cursor-pointer"
+            />
+          ) : (
+            <BookmarkIcon
+              onClick={handleBookmarkClick}
+              className="h-6 cursor-pointer"
+            />
+          )}
+        </div>
         <button type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
           <EditEventModal />
         </button>
@@ -58,6 +103,7 @@ const EventCard: FC<IEventData> = ({
           <DeleteIcon _id={_id} />
         </button>
       </div>
+
     </div>
   );
 };

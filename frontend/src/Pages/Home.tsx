@@ -109,17 +109,15 @@ const Home = () => {
               <label htmlFor="eventType">Event Type</label>
               <select
                 id="eventType"
-                onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                  handleChange(e)
-                }
+                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleChange(e)}
                 name="type"
                 required
                 value={data.type}
+                className="text-black ml-3" // Apply the text-black class here
               >
                 <option value="concert">Concert</option>
                 <option value="comedy">Comedy</option>
               </select>
-
               <button
                 type="submit"
                 className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
