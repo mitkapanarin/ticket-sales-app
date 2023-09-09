@@ -97,7 +97,7 @@ export const deleteEvent = async (req, res) => {
             });
         }
 
-        const { id } = req.params; // Assuming you get the event ID from the request parameters
+        const { id } = req.params;
 
         const deletedEvent = await EventModel.findByIdAndRemove(id);
 

@@ -34,7 +34,7 @@ export const EventsAPI = createApi({
     }),
     updateEvent: builder.mutation({
       query: (body) => ({
-        url: `/update-event/${body.id}`,
+        url: `/update-event/${body._id}`,
         method: "PUT",
         body,
       }),

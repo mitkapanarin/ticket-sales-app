@@ -14,6 +14,8 @@ import {
 } from "./Pages";
 import Sidebar from "./components/Sidebar/Sidebar";
 import ProtectedRoutes from "./Pages/utils/ProtectetRoutes";
+// import EditEventModal from "./components/EditModal/EditEventModal";
+import EditEventForm from "./Pages/EditEventForm";
 
 const App = () => {
   return (
@@ -25,6 +27,7 @@ const App = () => {
           <Route path="/musical-concerts" element={<MusicalConcerts />} />
           <Route path="/stand-up-comedies" element={<StandUpComedies />} />
           <Route path="/events/:id" element={<EventDetailsPage />} />
+          <Route path="/update-event/:id" element={<EditEventForm />} />
           <Route path="/bookmark" element={<BookMark />} />
           <Route path="/purchase-history" element={<PurchaseHistory />} />
           <Route element={<ProtectedRoutes />}>

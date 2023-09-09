@@ -1,29 +1,27 @@
 import React, { useState } from 'react';
 import { useDeleteEventMutation } from '../../store/API/EventsAPI';
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
 interface DeleteIconProps {
-    _id?: string;
+    id?: string;
 }
 
-const DeleteIcon: React.FC<DeleteIconProps> = ({ _id }) => {
+const DeleteIcon: React.FC<DeleteIconProps> = ({ id }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const [deleteEvent] = useDeleteEventMutation();
 
-    const store = useSelector((state: { event: { eventId: string } }) => state);
-    console.log(store);
+    // const store = useSelector((state: { event: { eventId: string } }) => state);
+    // console.log(store);
 
     const confirmDelete = async () => {
         try {
             toast.promise(
-                deleteEvent({
-                    eventId: _id,
-                }),
+                deleteEvent(id).unwrap(),
                 {
-                    pending: 'Deleting task, please wait...',
-                    success: 'Task deleted successfully 👌',
+                    pending: 'Deleting event, please wait...',
+                    success: 'event deleted successfully 👌',
                     error: 'An error occurred, please try again  🤯',
                 }
             );
