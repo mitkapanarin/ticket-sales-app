@@ -17,6 +17,9 @@ const SearchBar = () => {
     e.preventDefault();
     dispatch(changeSearchTerm(search));
     navigate("/display-search-result")
+    setSearch({
+      searchTerm: "", // Clear the search term after submitting
+    });
     console.log(search);
   };
 
