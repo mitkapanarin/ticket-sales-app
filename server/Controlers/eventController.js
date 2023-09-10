@@ -117,7 +117,8 @@ export const deleteEvent = async (req, res) => {
 export const searchEvent = async (req, res) => {
     try {
         const { search } = req.query;
-        res.status(200).json({ message: "searched event", search });
+        const events = await EventModel.find({ title: { $regex: search, $options: "i" } });
+        res.status(200).json({ message: "searched event", events });
     } catch (err) {
         res.status(500).json({ message: "something went wrong", err });
     }
