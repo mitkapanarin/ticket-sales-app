@@ -10,7 +10,8 @@ import {
   Profile,
   EventDetailsPage,
   MusicalConcerts,
-  StandUpComedies
+  StandUpComedies,
+  DisplaySearchResult,
 } from "./Pages";
 import Sidebar from "./components/Sidebar/Sidebar";
 import ProtectedRoutes from "./Pages/utils/ProtectetRoutes";
@@ -29,6 +30,7 @@ const App = () => {
           <Route path="/events/:id" element={<EventDetailsPage />} />
           <Route path="/bookmark" element={<BookMark />} />
           <Route path="/purchase-history" element={<PurchaseHistory />} />
+          <Route path="/display-search-result" element={<DisplaySearchResult />} />
           <Route element={<ProtectedRoutes />}>
             <Route path="/profile" element={<Profile />} />
             <Route path="/update-event/:id" element={<EditEventForm />} />

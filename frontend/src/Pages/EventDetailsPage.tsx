@@ -152,3 +152,12 @@ const EventDetailsPage: FC<EventDetailsPageProps> = ({
 };
 
 export default EventDetailsPage;
+
+
+
+
+
+
+
+
+

@@ -7,6 +7,7 @@ import { setupListeners } from "@reduxjs/toolkit/query";
 import { userSlice } from "./Slices/userSlice";
 import { EventsAPI } from "./API/EventsAPI";
 import { BookMarkAPI } from "./API/BookMarkAPI";
+import { searchSlice } from "./Slices/SearchSlice"
 
 const persistConfig = {
   key: "root",
@@ -27,6 +28,7 @@ export const store = configureStore({
     [UserAuthAPI.reducerPath]: UserAuthAPI.reducer,
     [EventsAPI.reducerPath]: EventsAPI.reducer,
     [BookMarkAPI.reducerPath]: BookMarkAPI.reducer,
+    SearchTerm: searchSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(EventsAPI.middleware, UserAuthAPI.middleware, BookMarkAPI.middleware,),

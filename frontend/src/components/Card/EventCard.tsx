@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import DeleteIcon from "../DeleteModal/DeleteIcon";
 
 
+
 interface IEventCardProps {
   date: Date;
   description: string;

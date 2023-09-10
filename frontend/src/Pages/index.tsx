@@ -10,8 +10,10 @@ import Profile from "./Profile";
 import EventDetailsPage from "./EventDetailsPage";
 import MusicalConcerts from "./MusicalConcerts";
 import StandUpComedies from "./StandUpComedies";
+import DisplaySearchResult from "./DisplaySearchResult";
 
 export {
+  DisplaySearchResult,
   MusicalConcerts,
   StandUpComedies,
   ErrorPage,
