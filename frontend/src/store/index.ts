@@ -8,6 +8,8 @@ import { userSlice } from "./Slices/userSlice";
 import { EventsAPI } from "./API/EventsAPI";
 import { BookMarkAPI } from "./API/BookMarkAPI";
 import { searchSlice } from "./Slices/SearchSlice"
+import { basketSlice } from "./Slices/basket";
+import { salesAPI } from "./API/SalesApi";
 
 const persistConfig = {
   key: "root",
@@ -28,7 +30,9 @@ export const store = configureStore({
     [UserAuthAPI.reducerPath]: UserAuthAPI.reducer,
     [EventsAPI.reducerPath]: EventsAPI.reducer,
     [BookMarkAPI.reducerPath]: BookMarkAPI.reducer,
+    [salesAPI.reducerPath]: salesAPI.reducer,
     SearchTerm: searchSlice.reducer,
+    Basket: basketSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(EventsAPI.middleware, UserAuthAPI.middleware, BookMarkAPI.middleware,),

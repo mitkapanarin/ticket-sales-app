@@ -11,8 +11,12 @@ import EventDetailsPage from "./EventDetailsPage";
 import MusicalConcerts from "./MusicalConcerts";
 import StandUpComedies from "./StandUpComedies";
 import DisplaySearchResult from "./DisplaySearchResult";
+import ShoppingCart from "./ShoppingCart";
+import Checkout from "./Checkout";
 
 export {
+  Checkout,
+  ShoppingCart,
   DisplaySearchResult,
   MusicalConcerts,
   StandUpComedies,

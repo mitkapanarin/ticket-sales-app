@@ -12,6 +12,8 @@ import {
   MusicalConcerts,
   StandUpComedies,
   DisplaySearchResult,
+  ShoppingCart,
+  Checkout,
 } from "./Pages";
 import Sidebar from "./components/Sidebar/Sidebar";
 import ProtectedRoutes from "./Pages/utils/ProtectetRoutes";
@@ -28,6 +30,8 @@ const App = () => {
           <Route path="/musical-concerts" element={<MusicalConcerts />} />
           <Route path="/stand-up-comedies" element={<StandUpComedies />} />
           <Route path="/events/:id" element={<EventDetailsPage />} />
+          <Route path="/shopping-cart" element={<ShoppingCart />} />
+          <Route path="/checkout" element={<Checkout />} />
           <Route path="/bookmark" element={<BookMark />} />
           <Route path="/purchase-history" element={<PurchaseHistory />} />
           <Route path="/display-search-result" element={<DisplaySearchResult />} />

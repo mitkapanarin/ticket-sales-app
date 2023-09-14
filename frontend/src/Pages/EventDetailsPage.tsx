@@ -12,18 +12,41 @@ import {
 } from "@heroicons/react/24/solid";
 import { BookmarkIcon } from "@heroicons/react/24/outline";
 import { toast } from "react-toastify";
+import { addToCart } from "../store/Slices/basket";
+import { useDispatch, useSelector } from "react-redux";
 
 interface EventDetailsPageProps {
   saved: boolean;
   _id: string;
+  quantity: number;
+  title: string;
+  image: string
+  date: Date;
+  description: string;
+  location: string;
+  type: string;
+  price: string;
   saveAnEventToBookMark: ({ eventID }: { eventID: string }) => void;
   removeAnEventFromBookmark: ({ eventID }: { eventID: string }) => void;
 }
 
 const EventDetailsPage: FC<EventDetailsPageProps> = ({
   saved,
+  title,
+  image,
+  date,
+  description,
+  location,
+  type,
+  price,
+  _id,
 }) => {
-  const [ticketAmount, setTicketAmount] = useState(0);
+  const dispatch = useDispatch();
+  const token = useSelector((state) => state?.user?.token)
+  console.log("token", token)
+
+  const [quantity, setQuantity] = useState(0);
+  const [hasInteracted, setHasInteracted] = useState(false);
   const params = useParams<{ id: string }>();
   const eventId = params.id;
 
@@ -75,6 +98,51 @@ const EventDetailsPage: FC<EventDetailsPageProps> = ({
     return <div>Loading, please wait...</div>;
   }
 
+
+  const handleForm = async (e) => {
+    e.preventDefault();
+    if (!token) {
+      // If the user is not logged in, display a message or redirect to the login page
+      toast.error("Please log in to add items to the cart");
+      return;
+    }
+    if (quantity < 1 && hasInteracted) {
+      // Show an error message if the quantity is less than 1 and the user has interacted with the input field
+      toast.error("Quantity must be 1 or more");
+      return;
+    }
+    try {
+      dispatch(
+        addToCart({
+          quantity,
+          title,
+          image,
+          date,
+          description,
+          location,
+          type,
+          price,
+          _id,
+        })
+      );
+      toast.success("Item added to the cart successfully 👌");
+      setQuantity(0); // Reset the quantity to 0 after adding to cart
+      setHasInteracted(false); // Reset the interaction state when adding to cart
+    } catch (err) {
+      console.log(err);
+      toast.error("Couldn't add the item to the cart, please try again");
+    }
+  };
+
+  const handleQuantityChange = (e) => {
+    const newQuantity = +e.target.value;
+    setQuantity(newQuantity);
+    if (newQuantity !== 0) {
+      setHasInteracted(true);
+    }
+  };
+
+
   return (
     <div className="container mx-auto max-w-4xl">
       <div className="flex justify-between items-center">
@@ -110,32 +178,71 @@ const EventDetailsPage: FC<EventDetailsPageProps> = ({
           )}
         </button>
       </div>
-
       <img
-        className="my-6 w-full object-contain object-top "
+        className="my-2 object-contain object-top"
         src={data?.image}
         style={{
+          width: "500px",
+          height: "450px",
           borderRadius: "8px",
         }}
         alt={data?.title}
       />
-
-      <h3 className="text-3xl my-4">Details ✨</h3>
+      <h3 className="text-3xl my-2 mt-0">Details ✨</h3>
       <p className="my-4 text-slate-300">{data?.description}</p>
       <p className="my-4 text-slate-300">Price: ${data?.price}</p>
 
-      <div className="flex flex-col items-center justify-center">
+      <form onSubmit={handleForm}>
+        <div className="flex items-center">
+          <button
+            type="button"
+            className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+            onClick={() => {
+              if (quantity > 1) {
+                setQuantity(quantity - 1);
+              }
+            }}
+          >
+            <MinusIcon className="h-4" />
+          </button>
+          <input
+            type="number"
+            value={quantity}
+            onChange={handleQuantityChange}
+            className="w-16 text-center border"
+          />
+          <button
+            type="button"
+            className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+            onClick={() => setQuantity(quantity + 1)}
+          >
+            <PlusIcon className="h-4" />
+          </button>
+        </div>
+        {quantity < 1 && hasInteracted && (
+          <p className="error-message">Quantity must be 1 or more</p>
+        )}
+        <button
+          type="submit"
+          className="focus:outline-none text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-900"
+          disabled={quantity < 1}
+        >
+          Add to cart
+        </button>
+      </form>
+
+      {/* <div className="flex flex-col items-center justify-center">
         <div className="flex gap-5">
           <button className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
             <PlusIcon
               className="h-6"
-              onClick={() => setTicketAmount(ticketAmount + 1)}
+              onClick={() => setQuantity(quantity + 1)}
             />
           </button>
-          <button>{ticketAmount}</button>
+          <button>{quantity}</button>
           <button className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">
             <MinusIcon
-              onClick={() => setTicketAmount(ticketAmount - 1)}
+              onClick={() => setQuantity(quantity - 1)}
               className="h-6"
             />
           </button>
@@ -146,7 +253,8 @@ const EventDetailsPage: FC<EventDetailsPageProps> = ({
         >
           Add to cart
         </button>
-      </div>
+      </div> */}
+
     </div>
   );
 };
