@@ -42,7 +42,7 @@ export const EventsAPI = createApi({
     }),
     getMultipleEvents: builder.mutation({
       query: (body) => ({
-        url: "/multiple-events",
+        url: "/get-multiple-events",
         method: "POST",
         body: body,
       }),

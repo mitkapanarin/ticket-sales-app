@@ -22,6 +22,7 @@
 ## Backend checkmarks
 
 * ✅ how to push JWT token as a cookie in the browser
+* code quality tools on the backend -> eslint prettier, husky, lint-staged, pre-commit
 
 ## list fo problems
 

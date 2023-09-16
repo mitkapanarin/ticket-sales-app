@@ -122,7 +122,7 @@ export const getMultipleEvents = async (req, res) => {
     const events = await EventModel.find({ _id: { $in: eventIDs } });
 
     // Return the found events
-    res.status(200).json({ data: events });
+    res.status(200).json(events);
   } catch (err) {
     res.status(500).json({ message: "Server Error", log: err.message });
   }

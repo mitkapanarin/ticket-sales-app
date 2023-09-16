@@ -1,20 +1,42 @@
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { removeOneItemFromCart } from "../store/Slices/basket";
-import ItemCard from "../components/Card/ItemCard";
 import { gradientTextStyles } from "../components/Text/TextStyles";
 import { RootState } from "../store";
+import ItemCard from "../components/Card/ItemCard";
+import { useGetMultipleEventsMutation } from "../store/API/EventsAPI";
+import { useEffect, useState } from "react";
 
 const ShoppingCart = () => {
+  const [data, setData] = useState<any>([]);
+  console.log("data", data);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const basketItems = useSelector(
     (state: RootState) => state?.Basket?.basketItems
   );
 
+  console.log("Basket Items:", basketItems);
   const removeItem = (id: string) => {
     dispatch(removeOneItemFromCart(id));
   };
+
+  const [getMultipleEvents, { isLoading, isError }] =
+    useGetMultipleEventsMutation();
+
+  useEffect(() => {
+    getMultipleEvents({
+      eventIDs: basketItems?.map((item) => item?.id),
+    }).then((res) => setData(res));
+  }, [basketItems]);
+
+  if (isLoading) return <p>Loading...</p>;
+
+  if (isError) return <p>Something went wrong</p>;
+
+  if (basketItems?.length === 0) {
+    return <p className="text-center">Your Shopping Cart is Empty</p>;
+  }
 
   return (
     <div>
@@ -23,43 +45,14 @@ const ShoppingCart = () => {
       >
         Shopping Cart
       </h1>
-      {basketItems?.length === 0 ? (
-        <p className="text-center">Your Shopping Cart is Empty</p>
-      ) : (
-        <div>
-          {basketItems?.map(
-            (item: {
-              _id: string;
-              date: Date;
-              image: string;
-              location: string;
-              title: string;
-            }) => {
-              console.log("Item Data:", item);
-              return (
-                <div key={item._id}>
-                  <ItemCard
-                    date={item.date}
-                    image={item.image}
-                    location={item.location}
-                    title={item.title}
-                  />
-                  <p>Total price: {/* ${item.price * item?.quantity} */}</p>
-                  <p>
-                    price * quantity {/* {item?.quantity} X ${item.price} */}
-                  </p>
-                  <button
-                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-                    onClick={() => removeItem(item?._id)}
-                  >
-                    Remove
-                  </button>
-                </div>
-              );
-            }
-          )}
-        </div>
-      )}
+      {data?.data?.map((item: any) => (
+        <ItemCard
+          key={item?._id}
+          {...item}
+          removeItem={() => removeItem(item?._id)}
+        />
+      ))}
+
       <div className="p-4 flex justify-between space-x-4 mt-32">
         <button
           onClick={() => navigate(-1)}
