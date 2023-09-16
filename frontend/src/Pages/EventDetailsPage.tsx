@@ -1,8 +1,12 @@
-import { useState, FC, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useGetOneEventQuery } from "../store/API/EventsAPI";
 import { gradientTextStyles } from "../components/Text/TextStyles";
-import { useGetAllBookMarksQuery, useRemoveEventFromBookMarkMutation, useSaveToBookMarkMutation } from "../store/API/BookMarkAPI"
+import {
+  useGetAllBookMarksQuery,
+  useRemoveEventFromBookMarkMutation,
+  useSaveToBookMarkMutation,
+} from "../store/API/BookMarkAPI";
 import dayjs from "dayjs";
 import {
   CalendarDaysIcon,
@@ -14,41 +18,19 @@ import { BookmarkIcon } from "@heroicons/react/24/outline";
 import { toast } from "react-toastify";
 import { addToCart } from "../store/Slices/basket";
 import { useDispatch, useSelector } from "react-redux";
+import { IEventData } from "../types/interface";
+import { RootState } from "../store";
 
-interface EventDetailsPageProps {
-  saved: boolean;
-  _id: string;
-  quantity: number;
-  title: string;
-  image: string
-  date: Date;
-  description: string;
-  location: string;
-  type: string;
-  price: string;
-  saveAnEventToBookMark: ({ eventID }: { eventID: string }) => void;
-  removeAnEventFromBookmark: ({ eventID }: { eventID: string }) => void;
-}
-
-const EventDetailsPage: FC<EventDetailsPageProps> = ({
-  saved,
-  title,
-  image,
-  date,
-  description,
-  location,
-  type,
-  price,
-  _id,
-}) => {
+const EventDetailsPage = () => {
+  const saved = false;
+  const params = useParams<{ id: string }>();
+  const eventId = params.id;
   const dispatch = useDispatch();
-  const token = useSelector((state) => state?.user?.token)
-  console.log("token", token)
+  const token = useSelector((state: RootState) => state?.user?.token);
+  console.log("eventID", eventId);
 
   const [quantity, setQuantity] = useState(0);
   const [hasInteracted, setHasInteracted] = useState(false);
-  const params = useParams<{ id: string }>();
-  const eventId = params.id;
 
   const { data, isLoading } = useGetOneEventQuery(eventId as string);
 
@@ -87,9 +69,11 @@ const EventDetailsPage: FC<EventDetailsPageProps> = ({
 
   const handleBookmarkClick = () => {
     if (isSaved) {
-      removeAnEventFromBookmark({ eventID: data._id });
+      removeAnEventFromBookmark({
+        eventID: (data as IEventData)._id as string,
+      });
     } else {
-      saveAnEventToBookMark({ eventID: data._id });
+      saveAnEventToBookMark({ eventID: (data as IEventData)._id as string });
     }
     setIsSaved(!isSaved);
   };
@@ -98,8 +82,7 @@ const EventDetailsPage: FC<EventDetailsPageProps> = ({
     return <div>Loading, please wait...</div>;
   }
 
-
-  const handleForm = async (e) => {
+  const handleForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!token) {
       // If the user is not logged in, display a message or redirect to the login page
@@ -114,15 +97,8 @@ const EventDetailsPage: FC<EventDetailsPageProps> = ({
     try {
       dispatch(
         addToCart({
+          id: eventId as string,
           quantity,
-          title,
-          image,
-          date,
-          description,
-          location,
-          type,
-          price,
-          _id,
         })
       );
       toast.success("Item added to the cart successfully 👌");
@@ -134,14 +110,13 @@ const EventDetailsPage: FC<EventDetailsPageProps> = ({
     }
   };
 
-  const handleQuantityChange = (e) => {
+  const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newQuantity = +e.target.value;
     setQuantity(newQuantity);
     if (newQuantity !== 0) {
       setHasInteracted(true);
     }
   };
-
 
   return (
     <div className="container mx-auto max-w-4xl">
@@ -210,6 +185,7 @@ const EventDetailsPage: FC<EventDetailsPageProps> = ({
             value={quantity}
             onChange={handleQuantityChange}
             className="w-16 text-center border"
+            style={{ color: 'black' }}
           />
           <button
             type="button"
@@ -254,18 +230,8 @@ const EventDetailsPage: FC<EventDetailsPageProps> = ({
           Add to cart
         </button>
       </div> */}
-
     </div>
   );
 };
 
 export default EventDetailsPage;
-
-
-
-
-
-
-
-
-
