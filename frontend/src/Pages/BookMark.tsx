@@ -1,5 +1,7 @@
 import { useGetAllBookMarksQuery } from "../store/API/BookMarkAPI";
 import ItemCard from "../components/Card/ItemCard";
+import { gradientTextStyles } from "../components/Text/TextStyles";
+
 
 const BookMark = () => {
   const { data, isLoading, isError, isFetching } = useGetAllBookMarksQuery(null);
@@ -15,9 +17,13 @@ const BookMark = () => {
     return <div>Error: Unable to load data</div>;
   }
   return (
-    <div>
-      <h2>Bookmarked Events</h2>
-      <div className="bookmark-list">
+    <div className="flex flex-wrap justify-center">
+      <h2
+        className={`${gradientTextStyles} text-center mb-10 mt-10 text-4xl font-bold capitalize w-full`}
+      >
+        Bookmarked Events
+      </h2>
+      <div className="flex space-x-20">
         {data?.data?.map((event: { _id: string; date: Date; image: string; location: string; title: string; }) => (
           <ItemCard
             key={event._id}
@@ -29,6 +35,8 @@ const BookMark = () => {
         ))}
       </div>
     </div>
+
+
   );
 };
 
