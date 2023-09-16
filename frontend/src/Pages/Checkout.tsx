@@ -2,11 +2,10 @@ import { useState } from "react";
 import InputField from "../components/Form/InputField";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-// import { useGetUserQuery } from "../store/API/UserAuthApi"
 import { usePurchaseTicketMutation } from "../store/API/SalesApi";
 import { toast } from "react-toastify";
 import { resetCart } from "../store/Slices/basket";
-// import ItemCard from "../components/Card/ItemCard";
+import ItemCard from "../components/Card/ItemCard";
 import { RootState } from "../store";
 
 const Checkout = () => {
@@ -17,11 +16,11 @@ const Checkout = () => {
   console.log("user state:", customerID);
 
   const basket = useSelector((state: RootState) => state?.Basket?.basketItems);
-
   console.log("basket", basket);
+
   const modifyBasket = basket.map((item) => {
     return {
-      eventID: item._id,
+      eventID: item.id,
       quantity: item.quantity,
       customerID,
       status: "completed",
@@ -64,10 +63,11 @@ const Checkout = () => {
 
   return (
     <div>
-      <h2 className="checkout-card-h">Checkout</h2>
-      <div className="divider">
+      <h2>Checkout</h2>
+      <div>
+        <ItemCard {...data} />
         <div className="">
-          <div className="checkout-right-section">
+          <div>
             <InputField
               type="text"
               name="name"

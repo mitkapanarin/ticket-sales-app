@@ -185,6 +185,7 @@ const EventDetailsPage = () => {
             value={quantity}
             onChange={handleQuantityChange}
             className="w-16 text-center border"
+            style={{ color: 'black' }}
           />
           <button
             type="button"
