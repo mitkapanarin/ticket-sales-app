@@ -1,10 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
+interface BasketItem {
+  id: string;
+  quantity: number;
+  eventData: unknown;
+}
+
 interface BasketState {
-  basketItems: {
-    id: string;
-    quantity: number;
-  }[];
+  basketItems: BasketItem[];
 }
 
 const initialState: BasketState = {
@@ -17,34 +20,35 @@ export const basketSlice = createSlice({
   reducers: {
     addToCart: (
       state,
-      action: PayloadAction<{ id: string; quantity: number }>
+      action: PayloadAction<{ id: string; quantity: number; eventData: unknown }>
     ) => {
-      const { id, quantity } = action.payload;
-      // trying to find if the item already exists in the basket
-      const findExistingItem = state.basketItems.find((item) => item.id === id);
-      // if the item already exists, filter it out from the basket
-      const filteredBasketItems = state.basketItems.filter(
-        (item) => item.id !== id
-      );
+      const { id, quantity, eventData } = action.payload;
+      const existingItemIndex = state.basketItems.findIndex((item) => item.id === id);
 
-      if (findExistingItem) {
-        // If the item already exists, update its quantity
+      if (existingItemIndex !== -1) {
+        // If the item already exists, update its quantity and eventData
+        const updatedBasketItems = [...state.basketItems];
+        updatedBasketItems[existingItemIndex] = {
+          ...state.basketItems[existingItemIndex],
+          quantity: state.basketItems[existingItemIndex].quantity + quantity,
+          eventData: eventData, // Update eventData
+        };
+
         return {
           ...state,
-          basketItems: [
-            ...filteredBasketItems,
-            {
-              ...findExistingItem,
-              quantity: findExistingItem.quantity + quantity,
-            },
-          ],
+          basketItems: updatedBasketItems,
         };
       } else {
-        // If the item does not exist, add it to the basket
-        // state.basketItems.push({ id, quantity });
+        // If the item does not exist, add it to the basket with eventData
+        const newBasketItem: BasketItem = {
+          id,
+          quantity,
+          eventData,
+        };
+
         return {
           ...state,
-          basketItems: [...state.basketItems, action.payload],
+          basketItems: [...state.basketItems, newBasketItem],
         };
       }
     },
@@ -61,7 +65,6 @@ export const basketSlice = createSlice({
   },
 });
 
-export const { addToCart, removeOneItemFromCart, resetCart } =
-  basketSlice.actions;
+export const { addToCart, removeOneItemFromCart, resetCart } = basketSlice.actions;
 
 export default basketSlice.reducer;

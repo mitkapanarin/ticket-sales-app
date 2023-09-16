@@ -12,6 +12,12 @@
 * ✅ redux store with redux persists, plus react toastify for notifications
 * User & Admin dashboards
 * Admin and user Different protected routes
+* reset email via jwt token and mail
+* email verification
+* stripe -> for payments processing
+* aws for image processing
+* passport js
+* forget password
 
 ## Backend checkmarks
 
@@ -21,6 +27,4 @@
 
 * shopping cart
 * ✅ delete edit btn only for admin
-* checkout - i cant get custumerID
-* ✅ bookmarks ❌-> only UI is left
-* ✅ get multiple events based on ID
+* ✅ checkout - i cant get costumerID
