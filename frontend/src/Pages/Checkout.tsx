@@ -18,7 +18,7 @@ const Checkout = () => {
   const basket = useSelector((state: RootState) => state?.Basket?.basketItems);
   console.log("basket", basket);
 
-  const modifyBasket = basket.map((item) => {
+  const modifyBasket = basket.map((item: { id: string; quantity: number }) => {
     return {
       eventID: item.id,
       quantity: item.quantity,

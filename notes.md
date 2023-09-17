@@ -29,3 +29,6 @@
 * shopping cart
 * ✅ delete edit btn only for admin
 * ✅ checkout - i cant get costumerID
+
+
+* BookMark Page when i select bookmark icon for one event, all others events have the save behavior

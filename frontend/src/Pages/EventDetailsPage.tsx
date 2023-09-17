@@ -39,6 +39,7 @@ const EventDetailsPage = () => {
   console.log(bookmarksData?.findUserBookMarks?.bookmarks);
   const [saveToBookMark] = useSaveToBookMarkMutation();
   const [removeEventFromBookMark] = useRemoveEventFromBookMarkMutation();
+  const [isSaved, setIsSaved] = useState(saved); // Initialize directly with the saved prop
 
   useEffect(() => {
     // Set the initial saved state when the component mounts
@@ -64,8 +65,6 @@ const EventDetailsPage = () => {
       error: "Failed to remove event from bookmark",
     });
   };
-
-  const [isSaved, setIsSaved] = useState(saved); // Initialize directly with the saved prop
 
   const handleBookmarkClick = () => {
     if (isSaved) {
@@ -185,7 +184,7 @@ const EventDetailsPage = () => {
             value={quantity}
             onChange={handleQuantityChange}
             className="w-16 text-center border"
-            style={{ color: 'black' }}
+            style={{ color: "black" }}
           />
           <button
             type="button"

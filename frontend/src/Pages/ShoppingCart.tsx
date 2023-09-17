@@ -3,9 +3,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { removeOneItemFromCart } from "../store/Slices/basket";
 import { gradientTextStyles } from "../components/Text/TextStyles";
 import { RootState } from "../store";
-import ItemCard from "../components/Card/ItemCard";
 import { useGetMultipleEventsMutation } from "../store/API/EventsAPI";
 import { useEffect, useState } from "react";
+import BasketItemCard from "../components/Card/basketItemCard";
 
 const ShoppingCart = () => {
   const [data, setData] = useState<any>([]);
@@ -39,19 +39,21 @@ const ShoppingCart = () => {
   }
 
   return (
-    <div>
+    <div className="m-10">
       <h1
         className={`${gradientTextStyles} font-bold text-center text-2xl mb-3`}
       >
         Shopping Cart
       </h1>
-      {data?.data?.map((item: any) => (
-        <ItemCard
-          key={item?._id}
-          {...item}
-          removeItem={() => removeItem(item?._id)}
-        />
-      ))}
+      <div className="grid grid-cols-2 gap-10 m-10">
+        {data?.data?.map((item: any) => (
+          <BasketItemCard
+            key={item?._id}
+            {...item}
+            removeItem={() => removeItem(item?._id)}
+          />
+        ))}
+      </div>
 
       <div className="p-4 flex justify-between space-x-4 mt-32">
         <button
