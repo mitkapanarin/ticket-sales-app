@@ -24,6 +24,22 @@ const ShoppingCart = () => {
   const [getMultipleEvents, { isLoading, isError }] =
     useGetMultipleEventsMutation();
 
+  const newData = data?.data?.map((item: any) => {
+    const matchingBasketItem = basketItems?.find(
+      (basketItem: any) => basketItem.id === item._id
+    );
+
+    if (matchingBasketItem) {
+      // If a matching item is found in the basket, add the quantity to the object
+      return { ...item, quantity: matchingBasketItem.quantity };
+    } else {
+      // If no matching item is found in the basket, return the object as is
+      return item;
+    }
+  });
+
+  console.log("newData", newData);
+
   useEffect(() => {
     getMultipleEvents({
       eventIDs: basketItems?.map((item) => item?.id),
@@ -46,7 +62,7 @@ const ShoppingCart = () => {
         Shopping Cart
       </h1>
       <div className="grid grid-cols-2 gap-10 m-10">
-        {data?.data?.map((item: any) => (
+        {newData?.map((item: any) => (
           <BasketItemCard
             key={item?._id}
             {...item}

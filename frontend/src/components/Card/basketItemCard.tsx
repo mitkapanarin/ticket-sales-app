@@ -10,6 +10,9 @@ interface BasketItemCardProps {
   removeItem?: undefined;
   isSaved: boolean;
   handleBookmarkClick: () => void;
+  price: number;
+
+  quantity?: number;
 }
 
 const BasketItemCard: React.FC<BasketItemCardProps> = ({
@@ -18,6 +21,8 @@ const BasketItemCard: React.FC<BasketItemCardProps> = ({
   location,
   title,
   removeItem,
+  price,
+  quantity,
 }) => {
   return (
     <div className="mb-10">
@@ -32,6 +37,7 @@ const BasketItemCard: React.FC<BasketItemCardProps> = ({
           style={{ width: "250px", height: "200px" }}
         />
         <div className="p-5">
+          {price} x {quantity} = {price * (quantity as number)}
           <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white mt-0">
             {title}
           </h5>

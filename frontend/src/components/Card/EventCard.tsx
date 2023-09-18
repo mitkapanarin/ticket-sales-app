@@ -34,9 +34,8 @@ const EventCard: FC<IEventCardProps> = ({
   saveAnEventToBookMark,
   removeAnEventFromBookmark,
 }) => {
-
   const navigate = useNavigate();
-  const userRole: string = useSelector((x: RootState) => x.user.userRole)
+  const userRole: string = useSelector((x: RootState) => x.user.userRole);
 
   const [isSaved, setIsSaved] = useState(saved || false);
 
@@ -45,7 +44,8 @@ const EventCard: FC<IEventCardProps> = ({
   ) => {
     e.preventDefault();
     if (isSaved) {
-      removeAnEventFromBookmark && removeAnEventFromBookmark({ eventID: _id as string });
+      removeAnEventFromBookmark &&
+        removeAnEventFromBookmark({ eventID: _id as string });
     } else {
       saveAnEventToBookMark({ eventID: _id as string });
     }
@@ -108,14 +108,15 @@ const EventCard: FC<IEventCardProps> = ({
             >
               <PencilIcon className="h-5" strokeWidth={2} />
             </button>
-            <button type="button" className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">
+            <button
+              type="button"
+              className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+            >
               <DeleteIcon id={_id} />
             </button>
           </>
         )}
-
       </div>
-
     </div>
   );
 };

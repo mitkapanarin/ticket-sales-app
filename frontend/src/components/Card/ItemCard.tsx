@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import dayjs from "dayjs";
 import { BookmarkIcon as BookmarkIconSolid } from "@heroicons/react/24/solid";
 import { BookmarkIcon } from "@heroicons/react/24/outline";
@@ -11,19 +11,36 @@ interface ItemCardProps {
   type?: string;
   _id?: string;
   id?: string;
-  isSaved: boolean;
-  handleBookmarkClick: () => void;
+  saved?: boolean;
+  saveAnEventToBookMark: ({ eventID }: { eventID: string }) => void;
+  removeAnEventFromBookmark?: ({ eventID }: { eventID: string }) => void;
 }
 
 const ItemCard: React.FC<ItemCardProps> = ({
+  _id,
   date,
   image,
   location,
   title,
-  isSaved,
-  handleBookmarkClick,
+  saved,
+  saveAnEventToBookMark,
+  removeAnEventFromBookmark,
 }) => {
-  console.log("isSaved:", isSaved);
+  const [isSaved, setIsSaved] = useState(saved); // Initialize directly with the saved prop
+
+  const handleBookmarkClick = (
+    e: React.MouseEvent<SVGSVGElement, MouseEvent>
+  ) => {
+    e.preventDefault();
+    if (isSaved) {
+      removeAnEventFromBookmark &&
+        removeAnEventFromBookmark({ eventID: _id as string });
+    } else {
+      saveAnEventToBookMark({ eventID: _id as string });
+    }
+    setIsSaved(!isSaved);
+  };
+
   return (
     <div className="mb-10">
       <div>
@@ -49,17 +66,19 @@ const ItemCard: React.FC<ItemCardProps> = ({
             <span className="bg-green-100 text-green-800 text-xs font-medium mr-2 my-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-green-400 border border-green-400">
               {location}
             </span>
-            <button
-              type="button"
-              className="flex py-2 px-2 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-              onClick={handleBookmarkClick}
-            >
+            <div className="">
               {isSaved ? (
-                <BookmarkIconSolid className="h-6 cursor-pointer" />
+                <BookmarkIconSolid
+                  onClick={handleBookmarkClick}
+                  className="h-6 cursor-pointer"
+                />
               ) : (
-                <BookmarkIcon className="h-6 cursor-pointer" />
+                <BookmarkIcon
+                  onClick={handleBookmarkClick}
+                  className="h-6 cursor-pointer"
+                />
               )}
-            </button>
+            </div>
           </div>
         </div>
       </div>
