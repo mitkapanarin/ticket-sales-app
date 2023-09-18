@@ -33,3 +33,4 @@
 
 * BookMark Page when i select bookmark icon for one event, all others events have the save behavior
 * If i bookmark event in /events page, and then see eventDetails for same event in /event-details event is not bookmarked
+* in shopping cart count total price = price x quantity
