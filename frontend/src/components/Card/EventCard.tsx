@@ -35,10 +35,6 @@ const EventCard: FC<IEventCardProps> = ({
   removeAnEventFromBookmark,
 }) => {
   const navigate = useNavigate();
-<<<<<<< HEAD
-=======
-  const userRole: string = useSelector((x: RootState) => x.user.userRole);
->>>>>>> e61bd01215e6f73b04eb8a98be4cf869681b8c09
 
   const [isSaved, setIsSaved] = useState(saved || false);
 
