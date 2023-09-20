@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, redirect } from "react-router-dom";
 import {
   Home,
   ErrorPage,
@@ -19,13 +19,21 @@ import Sidebar from "./components/Sidebar/Sidebar";
 import ProtectedRoutes from "./Pages/utils/ProtectetRoutes";
 // import EditEventModal from "./components/EditModal/EditEventModal";
 import EditEventForm from "./Pages/EditEventForm";
+import { useSelector } from "react-redux";
+import { RootState } from "./store";
 
 const App = () => {
+  const userRole: string = useSelector((x: RootState) => x.user.userRole);
+  console.log("user role", userRole);
+
   return (
     <BrowserRouter>
       <Sidebar>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<div>Welcome</div>} />
+          {userRole === "admin" && (
+            <Route path="/dashboard" element={<Home />} />
+          )}
           <Route path="/events" element={<Events />} />
           <Route path="/musical-concerts" element={<MusicalConcerts />} />
           <Route path="/stand-up-comedies" element={<StandUpComedies />} />
@@ -34,7 +42,10 @@ const App = () => {
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/bookmark" element={<BookMark />} />
           <Route path="/purchase-history" element={<PurchaseHistory />} />
-          <Route path="/display-search-result" element={<DisplaySearchResult />} />
+          <Route
+            path="/display-search-result"
+            element={<DisplaySearchResult />}
+          />
           <Route element={<ProtectedRoutes />}>
             <Route path="/profile" element={<Profile />} />
             <Route path="/update-event/:id" element={<EditEventForm />} />

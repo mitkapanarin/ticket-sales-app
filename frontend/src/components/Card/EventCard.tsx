@@ -5,8 +5,6 @@ import { BookmarkIcon as BookmarkIconSolid } from "@heroicons/react/24/solid";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import DeleteIcon from "../DeleteModal/DeleteIcon";
-import { useSelector } from "react-redux";
-import { RootState } from "../../store";
 
 interface IEventCardProps {
   date: Date;
@@ -19,6 +17,7 @@ interface IEventCardProps {
   _id?: string;
   id?: string;
   saved?: boolean;
+  userRole?: string;
   saveAnEventToBookMark: ({ eventID }: { eventID: string }) => void;
   removeAnEventFromBookmark?: ({ eventID }: { eventID: string }) => void;
 }
@@ -31,12 +30,11 @@ const EventCard: FC<IEventCardProps> = ({
   title,
   _id,
   saved,
+  userRole,
   saveAnEventToBookMark,
   removeAnEventFromBookmark,
 }) => {
-
   const navigate = useNavigate();
-  const userRole: string = useSelector((x: RootState) => x.user.userRole)
 
   const [isSaved, setIsSaved] = useState(saved || false);
 
@@ -45,7 +43,8 @@ const EventCard: FC<IEventCardProps> = ({
   ) => {
     e.preventDefault();
     if (isSaved) {
-      removeAnEventFromBookmark && removeAnEventFromBookmark({ eventID: _id as string });
+      removeAnEventFromBookmark &&
+        removeAnEventFromBookmark({ eventID: _id as string });
     } else {
       saveAnEventToBookMark({ eventID: _id as string });
     }
@@ -108,14 +107,15 @@ const EventCard: FC<IEventCardProps> = ({
             >
               <PencilIcon className="h-5" strokeWidth={2} />
             </button>
-            <button type="button" className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">
+            <button
+              type="button"
+              className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+            >
               <DeleteIcon id={_id} />
             </button>
           </>
         )}
-
       </div>
-
     </div>
   );
 };

@@ -1,4 +1,3 @@
-// BasketItemCard.tsx
 import React from "react";
 import dayjs from "dayjs";
 

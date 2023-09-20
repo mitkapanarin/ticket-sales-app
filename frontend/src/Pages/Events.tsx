@@ -9,8 +9,11 @@ import {
   useSaveToBookMarkMutation,
   useRemoveEventFromBookMarkMutation,
 } from "../store/API/BookMarkAPI";
+import { RootState } from "../store";
+import { useSelector } from "react-redux";
 
 const Events = () => {
+  const userRole: string = useSelector((x: RootState) => x.user.userRole);
   const { data: bookmarksData, isLoading: isBookMarksLoading } =
     useGetAllBookMarksQuery(null);
   console.log(bookmarksData?.findUserBookMarks?.bookmarks);
@@ -90,6 +93,7 @@ const Events = () => {
             return (
               <EventCard
                 key={item?._id}
+                userRole={userRole}
                 {...item}
                 saveAnEventToBookMark={saveAnEventToBookMark}
                 removeAnEventFromBookmark={removeAnEventFromBookmark}
