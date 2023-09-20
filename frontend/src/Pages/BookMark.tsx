@@ -5,25 +5,18 @@ import {
 } from "../store/API/BookMarkAPI";
 import ItemCard from "../components/Card/ItemCard";
 import { gradientTextStyles } from "../components/Text/TextStyles";
-import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { IEventData } from "../types/interface";
 
 const BookMark = () => {
-  const saved = false;
   const { data, isLoading, isError, isFetching } =
     useGetAllBookMarksQuery(null);
   console.log("Data from API:", data);
 
+  const { data: bookmarksData } = useGetAllBookMarksQuery(null);
+
   console.log(data?.findUserBookMarks?.bookmarks);
   const [saveToBookMark] = useSaveToBookMarkMutation();
   const [removeEventFromBookMark] = useRemoveEventFromBookMarkMutation();
-  const [isSaved, setIsSaved] = useState(saved); // Initialize directly with the saved prop
-
-  useEffect(() => {
-    // Set the initial saved state when the component mounts
-    setIsSaved(saved);
-  }, [saved]);
 
   const saveAnEventToBookMark = async ({ eventID }: { eventID: string }) => {
     await toast.promise(saveToBookMark({ eventID }).unwrap(), {
@@ -43,17 +36,6 @@ const BookMark = () => {
       success: "Event removed from bookmark",
       error: "Failed to remove event from bookmark",
     });
-  };
-
-  const handleBookmarkClick = () => {
-    if (isSaved) {
-      removeAnEventFromBookmark({
-        eventID: (data as IEventData)._id as string,
-      });
-    } else {
-      saveAnEventToBookMark({ eventID: (data as IEventData)._id as string });
-    }
-    setIsSaved(!isSaved);
   };
 
   if (isLoading || isFetching) {
@@ -83,12 +65,12 @@ const BookMark = () => {
           }) => (
             <ItemCard
               key={event._id}
-              date={event.date}
-              image={event.image}
-              location={event.location}
-              title={event.title}
-              handleBookmarkClick={handleBookmarkClick}
-              isSaved={isSaved}
+              saveAnEventToBookMark={saveAnEventToBookMark}
+              removeAnEventFromBookmark={removeAnEventFromBookmark}
+              saved={bookmarksData?.findUserBookMarks?.bookmarks?.includes(
+                event?._id
+              )}
+              {...event}
             />
           )
         )}
