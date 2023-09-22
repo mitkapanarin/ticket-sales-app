@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, redirect } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import {
   Home,
   ErrorPage,
@@ -31,9 +31,10 @@ const App = () => {
       <Sidebar>
         <Routes>
           <Route path="/" element={<div>Welcome</div>} />
-          {userRole === "admin" && (
-            <Route path="/dashboard" element={<Home />} />
-          )}
+          <Route
+            path="/dashboard"
+            element={userRole === "admin" ? <Home /> : <Navigate to="/" />}
+          />
           <Route path="/events" element={<Events />} />
           <Route path="/musical-concerts" element={<MusicalConcerts />} />
           <Route path="/stand-up-comedies" element={<StandUpComedies />} />
