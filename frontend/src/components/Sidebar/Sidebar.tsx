@@ -12,7 +12,7 @@ import {
   ArrowRightOnRectangleIcon,
   SunIcon,
   XMarkIcon,
-  ShoppingCartIcon
+  ShoppingCartIcon,
 } from "@heroicons/react/24/solid";
 import NavLink from "./Navlink";
 import BasicSwitch from "../Switch/BasicSwitch";
@@ -54,8 +54,9 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
 
       <aside
         id="default-sidebar"
-        className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform ${!isOpen && "-translate-x-full"
-          } sm:translate-x-0`}
+        className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform ${
+          !isOpen && "-translate-x-full"
+        } sm:translate-x-0`}
         aria-label="Sidebar"
       >
         <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
@@ -146,6 +147,7 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
                 {isDarkMode ? "Dark Mode" : "Light Mode"}
               </span>
               <BasicSwitch
+                checked={isDarkMode ? true : false}
                 onchange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   e.target.checked
                     ? dispatch(themeSwitch(ThemeTypesEnum.DARK))
@@ -157,9 +159,7 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
           </ul>
         </div>
       </aside>
-      <div className="p-4 sm:ml-64">
-        {children}
-      </div>
+      <div className="p-4 sm:ml-64">{children}</div>
     </div>
   );
 };
