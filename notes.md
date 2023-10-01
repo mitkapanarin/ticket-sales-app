@@ -1,5 +1,3 @@
-# checkmarks
-
 ## Frontend checkmarks
 
 * ✅ husky, eslint, prettier, pre-commit, code quality tools
