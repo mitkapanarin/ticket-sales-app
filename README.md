@@ -1,4 +1,4 @@
-# ticket-sales-app
+# Events-sales-app
 
 # This Project is under development
 
