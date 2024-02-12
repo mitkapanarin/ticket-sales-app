@@ -29,7 +29,7 @@
 
 ### Backend
 
-* FireBase
+* MongoDB, Express.js
 
 ## ESLINT, Husky, Prettier setup
 
