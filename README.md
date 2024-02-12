@@ -14,8 +14,7 @@
 
 * Login Feature
 * Payment feature
-* tax information depending on different regions of the world
-* Save/ Unsave feature
+* Save / Unsave feature
 * different dashboards based on user roles
 * Theme change feature
 * QR Code generating feature
@@ -30,12 +29,7 @@
 
 ### Backend
 
-* Express, nodejs
-* MongoDB
-* AWS S3 for storing images
-* JWT for authentication
-* Passport for authentication
-* stripe for payment
+* FireBase
 
 ## ESLINT, Husky, Prettier setup
 
